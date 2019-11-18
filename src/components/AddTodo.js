@@ -27,7 +27,7 @@ export class AddTodo extends Component {
             value={this.state.title}
             onChange={this.onChange}
           ></input>
-          <div class="input-group-append">
+          <div className="input-group-append">
             <input
               type="submit"
               value="Submit"

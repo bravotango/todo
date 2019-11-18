@@ -16,24 +16,26 @@ class App extends Component {
 
   componentDidMount() {
     axios
-      .get("https://jsonplaceholder.typicode.com/todos?limit=25")
+      .get("https://jsonplaceholder.typicode.com/todos?_limit=5")
       .then(res => this.setState({ todos: res.data }));
   }
   //Delete Todo
   delTodo = id => {
-    this.setState({
-      todos: [...this.state.todos.filter(todo => todo.id !== id)]
-    });
+    axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).then(res =>
+      this.setState({
+        todos: [...this.state.todos.filter(todo => todo.id !== id)]
+      })
+    );
   };
 
   //Add Todo
   addTodo = title => {
-    const newTodo = {
-      id: uuid.v4(),
-      title,
-      completed: false
-    };
-    this.setState({ todos: [...this.state.todos, newTodo] });
+    axios
+      .post("https://jsonplaceholder.typicode.com/todos", {
+        title,
+        completed: false
+      })
+      .then(res => this.setState({ todos: [...this.state.todos, res.data] }));
   };
 
   //Toggle Complete
@@ -57,7 +59,7 @@ class App extends Component {
             <Header></Header>
             <Route
               exact
-              path="/"
+              path="*"
               render={props => (
                 <React.Fragment>
                   <div
@@ -82,7 +84,10 @@ class App extends Component {
               )}
             />
 
-            <Route path="/about" component={About} />
+            <Route
+              path="btgraphix.com/portfolio-examples/react/todo/about"
+              component={About}
+            />
           </div>
         </div>
       </Router>
